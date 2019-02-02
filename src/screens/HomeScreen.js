@@ -1,7 +1,14 @@
 import React, {Component} from 'react';
-import ShowItem from '../components/ShowItem'
+import ShowItem from '../components/ShowItem';
+import CustomHeader from '../components/CustomHeader';
+import CustomFooter from '../components/CustomFooter';
 import {View,FlatList,ToastAndroid,ActivityIndicator,StyleSheet,Text} from 'react-native';
+
 export default class HomeScreen extends Component {
+
+  static navigationOptions = {
+    header: null,
+  };
 
   constructor(){
     super()
@@ -64,11 +71,15 @@ export default class HomeScreen extends Component {
       </View>
       : 
       <View style={styles.mainContainer}>
-      <FlatList 
-            data={this.state.data}
-            renderItem={this.renderItem}
-            keyExtractor={(item)=>item.id}
-          />
+        <View style={{flex:0.93}}>
+        <CustomHeader searchFunction={this.filterResults}/>
+        <FlatList 
+              data={this.state.data}
+              renderItem={this.renderItem}
+              keyExtractor={(item)=>item.id}
+            />
+        </View>
+        <CustomFooter text="Sagi Liba"/>{/* takes the rest of the space: 0.07 */}
       </View>
     )
   }

@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   img: {
     height: 200, 
     width: null,
-    //resizeMode: "stretch",
+    resizeMode: "stretch",
     flex:1
   }
 });
