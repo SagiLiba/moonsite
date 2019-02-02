@@ -9,11 +9,7 @@ export default class ShowItem extends Component {
         <Icon name="ios-search" />
         <Input placeholder="Search"
          onChangeText={text=>this.props.searchFunction(text)}/>
-        <Icon name="ios-people" />
       </Item>
-      <Button transparent>
-        <Text>Search</Text>
-      </Button>
     </Header>
     );
   }

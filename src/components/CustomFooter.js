@@ -15,7 +15,7 @@ export default class CustomFooter extends Component {
 const styles = StyleSheet.create({
   footerContainer: {
     flex: 0.07,
-    backgroundColor: "#2a33aa",
+    backgroundColor: "#4050b5",
     justifyContent:"center",
     alignItems: 'center'
   },

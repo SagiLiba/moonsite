@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ShowItem from '../components/ShowItem';
 import CustomHeader from '../components/CustomHeader';
 import CustomFooter from '../components/CustomFooter';
+import Background from '../components/Background';
 import {View,FlatList,ToastAndroid,ActivityIndicator,StyleSheet} from 'react-native';
 
 export default class HomeScreen extends Component {
@@ -127,6 +128,7 @@ export default class HomeScreen extends Component {
       : 
       <View style={styles.mainContainer}>
         <View style={{flex:0.93}}>
+        <Background/>
         <CustomHeader searchFunction={this.filterResults}/>
         <FlatList 
               data={this.state.data}
@@ -142,6 +144,7 @@ export default class HomeScreen extends Component {
     )
   }
 }
+
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1

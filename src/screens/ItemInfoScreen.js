@@ -7,7 +7,8 @@ export default class ItemInfoScreen extends Component {
 
   static navigationOptions = ({navigation}) => ({
     title: navigation.state.params.name,
-
+    headerTitleStyle: { color: "white"},
+    headerStyle: {backgroundColor: "#4050b5"}
   })
 
   constructor(props){
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   genreText: {
-    color: "red",
+    color: "blue",
     fontSize: 16,
   }
 });
