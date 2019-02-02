@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ShowItem from '../components/ShowItem'
 import {View,FlatList,ToastAndroid,ActivityIndicator,StyleSheet,Text} from 'react-native';
 export default class HomeScreen extends Component {
 
@@ -31,12 +32,29 @@ export default class HomeScreen extends Component {
     })
   }
   renderItem = ({item}) =>{
+    var {name,image,rating,summary,genres,language,schedule,network} = item.show
+    name = (name == undefined) ? "" : name
+    image = (image == null) ? require("../images/placeholder.jpg") : {uri: image.medium}
+    summary = (summary == null? "": summary)
     return(
-      <View>
-        <Text>{item.show.name}</Text>
-      </View>
+     <ShowItem name={name} 
+               img={image} 
+               avgRating={rating.average} 
+               clicked={()=>this.props.navigation.navigate("ItemInfo",
+                                                          {
+                                                          name: name,
+                                                          img: image,
+                                                          avgRating: rating.average,
+                                                          summary: summary,
+                                                          genres: genres,
+                                                          language: language,
+                                                          schedule: schedule,
+                                                          network: network
+                                                          })}
+              />
     )
-  }
+  };
+
   render(){
     return(
       this.state.loading // While fetching data show indicator
