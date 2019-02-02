@@ -7,7 +7,8 @@ export default class ShowItem extends Component {
     <Header searchBar rounded>
       <Item>
         <Icon name="ios-search" />
-        <Input placeholder="Search"/>
+        <Input placeholder="Search"
+         onChangeText={text=>this.props.searchFunction(text)}/>
         <Icon name="ios-people" />
       </Item>
       <Button transparent>

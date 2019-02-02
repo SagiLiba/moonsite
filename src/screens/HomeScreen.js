@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ShowItem from '../components/ShowItem';
 import CustomHeader from '../components/CustomHeader';
 import CustomFooter from '../components/CustomFooter';
-import {View,FlatList,ToastAndroid,ActivityIndicator,StyleSheet,Text} from 'react-native';
+import {View,FlatList,ToastAndroid,ActivityIndicator,StyleSheet} from 'react-native';
 
 export default class HomeScreen extends Component {
 
@@ -14,8 +14,11 @@ export default class HomeScreen extends Component {
     super()
     this.state = {
       data:[],
+      previousData:[],
       loading:true,
-      amount: 8
+      amount: 8,
+      searching: false,
+      saveOnce: true
     }
 
     this.results = []
@@ -38,6 +41,58 @@ export default class HomeScreen extends Component {
       this.setState({loading:false})
     })
   }
+
+  filterResults = (text)=>{
+    
+    if ( text.length > 0){ 
+      // User starts writing search query
+      // Save previous data state once.
+      if ( this.state.saveOnce ){
+        this.setState({previousData: this.state.data,saveOnce: false})
+      }
+
+      var filteredData = this.results.filter((item)=>{
+        return item.show.name.toLowerCase().indexOf(text.toLowerCase()) !== -1
+      })
+      // return filtered data ,searching true: disable loading more data
+      this.setState({data: filteredData,searching:true})
+
+    } else { 
+      // User deleted his search query, 
+      // set the data to the previous condition (before searching)
+      this.setState({data: this.state.previousData,
+                     previousData: this.state.data,
+                     saveOnce: true,
+                     searching:false // enable loading more data
+                    })
+    }
+  }
+
+  loadMore = () =>{
+
+    const {data,amount} = this.state
+    const dataLength = data.length
+ 
+    if (dataLength + amount < this.results.length){
+      // Get the next results
+      this.setState({
+                     data:[...data,...this.results.slice(dataLength,dataLength+amount)],
+                     searching:false // enable loading more data
+                    })
+
+    } else {
+      // Get the last results
+      this.setState({
+                     data:[...data,...this.results.slice(dataLength,this.results.length)],
+                     searching:true // disable loading more data
+                    })
+    }
+  }
+
+  FlatListFooter = () => {
+      return(<View style={{alignItems:"center"}}><ActivityIndicator animating={true} size="large"/></View>)
+  }
+
   renderItem = ({item}) =>{
     var {name,image,rating,summary,genres,language,schedule,network} = item.show
     name = (name == undefined) ? "" : name
@@ -77,6 +132,9 @@ export default class HomeScreen extends Component {
               data={this.state.data}
               renderItem={this.renderItem}
               keyExtractor={(item)=>item.id}
+              ListFooterComponent={!this.state.searching ? this.FlatListFooter : ()=>{return(<View></View>)}}
+              onEndReached={ !this.state.searching ? this.loadMore : ()=>{}}
+              onEndReachedThreshold ={1}
             />
         </View>
         <CustomFooter text="Sagi Liba"/>{/* takes the rest of the space: 0.07 */}
